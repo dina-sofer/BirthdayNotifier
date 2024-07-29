@@ -13,6 +13,11 @@ export class UserService {
         return result as  User[];
     }
 
+    async getById(id: string) {
+        const result = await this.userModel.findOne({_id: id});
+        return result as  User;
+    }
+
     async insertUser(newUser: User) {
         const user = new this.userModel({
             userName: newUser.userName
@@ -20,6 +25,19 @@ export class UserService {
         // const result = await user.save();
         // return result;
         return user;
+    }
+
+    async updateUser(id, newUser: User) {
+        const user = new this.userModel({
+            userName: newUser.userName
+        })
+        const result = await this.userModel.findByIdAndUpdate(id, newUser);
+        return 'updated';
+    }
+
+    async deleteUser(id) {
+        const result = await this.userModel.findByIdAndDelete(id);
+        return 'deleted';
     }
 }
 
